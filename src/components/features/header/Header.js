@@ -10,7 +10,8 @@ const Header = () => {
 
     return (
         <HeaderBody>
-            <HeaderLeft><img src="./images/abraLogo.jpeg" alt="Abra Company Logo" /><p>Weather Task</p> </HeaderLeft>
+            <HeaderLeft><img src="./images/abraLogo.jpeg" alt="Abra Company Logo" /><p>Weather Task <img src="./images/rainy-1.svg" alt="Kiwi standing on oval"/>
+</p> </HeaderLeft>
             <HeaderRight> <ToggleButtonGroup type="checkbox" value={value} onChange={handleChange}>
       <Link to="/"><ToggleButton id="tbg-btn-1" value={1} style={{fontSize:"1.5rem",color:"white",background:"#141414",textDecoration:"none"}}>
         Home</ToggleButton>
@@ -29,6 +30,7 @@ export default Header
 
 const HeaderBody = styled.div`
 display:flex;
+width:100%;
 justify-content:space-between;
 flex-direction:row;
 background:"#f4f4f4";
