@@ -3,10 +3,10 @@ import React, {useState,useEffect} from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from "react-redux";
 import { addToFavorites } from "../../redux/favoritesSlice";
-import { getCityDetails,ChangedToFavorite } from "../../redux/citySlicer";
+import { getCityByLocationKey,ChangedToFavorite, getCurrentWeather } from "../../redux/citySlicer";
 import { getDailyForecast } from "../../redux/weekSlice";
 import {daysWeek} from '../../services/mockCityApi'
-import {getAutoComplete, getDaysForecast} from '../../services/weatherApi'
+import {getAutoComplete, getCurrentLocation} from '../../services/weatherApi'
 import DailyWeather from '../features/card/DailyWeather';
 import CityCard from '../features/card/CityCard';
 
@@ -20,12 +20,13 @@ const Weather = () => {
 
     const [weatherDetails,setWeatherDetails] = useState([]);
     const [showDays,setShowDays] = useState(false);
-    const [city,setCity] = useState();
+    const [key,setKey] = useState("");
     const [suggestions,setSuggestions] = useState([]);
     const [weatherWeek,setWeatherWeek] = useState([]);
     const [text,setText] = useState("");
 
     const getCity = useSelector((state) => state.city);
+    
         const { cityDetails, isFavored, status, error } = getCity;
 
     const getFiveDays = useSelector((state) => state.dailyForecast);
@@ -74,9 +75,23 @@ const Weather = () => {
     dispatch(ChangedToFavorite())
   };
 
+  const getMyLocation = async ()=>{
+      const successCallback =  (position) => {
+           getCurrentLocation(position.coords.latitude,position.coords.longitude)
+          .then((data) => dispatch(getCityByLocationKey(data.Key)))
+
+            dispatch(getCurrentWeather(key))
+
+  };
+  const errorCallback = (error) => {
+    console.log(error)
+  };
+navigator.geolocation.getCurrentPosition(successCallback , errorCallback)
+  }
+
 
     return (
-        <WeatherPageBody>
+        <WeatherPageBody className="animate__animated animate__fadeInDown">
             <h2>Weather</h2>
             <span><button onClick={getCityLocation}><i class="fas fa-search"></i></button>
             <input type="text"  placeholder="city..." onChange={(e) => onChangeHandler(e.target.value)}
@@ -86,7 +101,7 @@ const Weather = () => {
                     setSuggestions([])
                 }, 100)
             }}
-            /> 
+            /> <button onClick={getMyLocation}>My Location <i class="fa fa-map-marker" aria-hidden="true"></i></button>
             </span>
             {suggestions && suggestions.map((suggestion,i)=> {
                 return <OptionsList key={i} onClick={()=> onSuggestHandler(suggestion.LocalizedName)}>{suggestion.LocalizedName}</OptionsList>
@@ -97,13 +112,13 @@ const Weather = () => {
             {/* {showDays && weatherWeek?.DailyForecasts.map((oneDay,i)=> 
                 <DailyWeather key={i} num={i} title={oneDay.Day.IconPhrase} maxWeather={oneDay.Temperature.Maximum} minWeather={oneDay.Temperature.Minimum}/>
             )} */}
-             <WeatherBox>
+             <WeatherBox >
             <WeatherBoxTop>
-                <div><CityCard details={cityDetails} /></div>
+                <div><CityCard  /></div>
                 <div>Add To Favorites<button onClick={()=> handleAddFavorite(cityDetails)}>Add</button></div>
             </WeatherBoxTop>
             <WeatherBoxCenter>
-                <h1> {cityDetails.current.WeatherText}</h1>
+                <h1> Will Change Weather Info</h1>
             </WeatherBoxCenter>
            <WeatherBoxBottom>
                {dailyForecast.map((day,i)=> 

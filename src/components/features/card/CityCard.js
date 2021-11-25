@@ -1,19 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
 import Card from 'react-bootstrap/Card'
+import { useSelector } from "react-redux";
 
-const CityCard = ({details}) => {
-  const {Value , Unit} = details.current.Temperature.Metric;
-   
+const CityCard = () => {
+  // const {Value , Unit} = details.current.Temperature.Metric;
+   const getTheme = useSelector((state) => state.theme);
+const getCity = useSelector((state) => state.city);
+    
+        const { cityDetails, isFavored, status, error } = getCity;
+
+    const {bg,text } = getTheme;
     return (
         <div>
-        <CardBody>
-        <Card border="primary" style={{ width: '18rem' }}>
-    <Card.Header>{details.name}</Card.Header>
+        <CardBody className="animate__animated animate__fadeInDown">
+        <Card border="primary" bg={bg} text={text} style={{ width: '18rem' }}>
+    <Card.Header>Testing Name</Card.Header>
     <Card.Body>
-      <Card.Title>{Value}°{Unit}</Card.Title>
+      <Card.Title>Value°Unit</Card.Title>
       <Card.Text>
-         <small className="text-muted">{details.current.WeatherText}</small>
+         <small className="text-muted">Hello World</small>
       </Card.Text>
     </Card.Body>
   </Card>

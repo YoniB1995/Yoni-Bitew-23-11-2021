@@ -244,3 +244,64 @@ export const telAvivForecast = {
 }
 
 export const daysWeek = ["Sunday","Monday","Tuesday","Wednesday","Thursday"]
+
+export const currentLocation = {
+  "Version": 1,
+  "Key": "212479",
+  "Type": "City",
+  "Rank": 65,
+  "LocalizedName": "Gedera",
+  "EnglishName": "Gedera",
+  "PrimaryPostalCode": "",
+  "Region": {
+    "ID": "MEA",
+    "LocalizedName": "Middle East",
+    "EnglishName": "Middle East"
+  },
+  "Country": {
+    "ID": "IL",
+    "LocalizedName": "Israel",
+    "EnglishName": "Israel"
+  },
+  "AdministrativeArea": {
+    "ID": "M",
+    "LocalizedName": "Central District",
+    "EnglishName": "Central District",
+    "Level": 1,
+    "LocalizedType": "District",
+    "EnglishType": "District",
+    "CountryID": "IL"
+  },
+  "TimeZone": {
+    "Code": "IST",
+    "Name": "Asia/Jerusalem",
+    "GmtOffset": 2,
+    "IsDaylightSaving": false,
+    "NextOffsetChange": "2022-03-25T00:00:00Z"
+  },
+  "GeoPosition": {
+    "Latitude": 31.816,
+    "Longitude": 34.781,
+    "Elevation": {
+      "Metric": {
+        "Value": 84,
+        "Unit": "m",
+        "UnitType": 5
+      },
+      "Imperial": {
+        "Value": 275,
+        "Unit": "ft",
+        "UnitType": 0
+      }
+    }
+  },
+  "IsAlias": false,
+  "SupplementalAdminAreas": [],
+  "DataSets": [
+    "AirQualityCurrentConditions",
+    "AirQualityForecasts",
+    "Alerts",
+    "DailyPollenForecast",
+    "ForecastConfidence"
+  ]
+}

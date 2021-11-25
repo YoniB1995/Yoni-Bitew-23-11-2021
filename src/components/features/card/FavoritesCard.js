@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Card from 'react-bootstrap/Card'
 
 const FavoritesCard = ({title,itemId}) => {
+  
     return (
         <CardBody>
         <Card>

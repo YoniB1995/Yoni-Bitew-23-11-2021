@@ -8,6 +8,7 @@ import {
 } from "../../redux/favoritesSlice";
 
 const Favorites = () => {
+  
      const list = useSelector((state) => state.favorites);
   const dispatch = useDispatch();
 
@@ -25,7 +26,7 @@ const Favorites = () => {
   
     return (
         
-        <FavoritesBody>
+        <FavoritesBody className="animate__animated animate__fadeInUp">
             <FavoritesBox>
             <h2>Favorites</h2>
             <button onClick={getDetails} >Get Items</button>
