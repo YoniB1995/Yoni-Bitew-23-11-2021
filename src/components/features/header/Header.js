@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 import './Header.css'
-import { changeTheme ,BackToDefault} from "../../../redux/themeSlicer";
+import { changeTheme ,backToDefault} from "../../../redux/themeSlicer";
 
 
 const Header = () => {
@@ -19,11 +19,11 @@ const Header = () => {
         if (!isTheme){
         setIsTheme(true)
         dispatch(changeTheme())
-        }else {
-           setIsTheme(false)
-        dispatch(BackToDefault()) 
         }
-        
+        else {
+            setIsTheme(false)
+        dispatch(backToDefault()) 
+        }
    }
     return (
         <HeaderBody>

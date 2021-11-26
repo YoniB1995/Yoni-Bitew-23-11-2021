@@ -3,10 +3,11 @@ import React, {useState,useEffect} from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from "react-redux";
 import { addToFavorites } from "../../redux/favoritesSlice";
-import { getCityByLocationKey,ChangedToFavorite, getCurrentWeather } from "../../redux/citySlicer";
+import { getCityByLocationKey,ChangedToFavorite } from "../../redux/citySlicer";
+// import { getCurrentWeather} from "../../redux/cityWeatherSlice";
 import { getDailyForecast } from "../../redux/weekSlice";
 import {daysWeek} from '../../services/mockCityApi'
-import {getAutoComplete, getCurrentLocation} from '../../services/weatherApi'
+import {getAutoComplete, getCurrentLocation,getCurrentWeather} from '../../services/weatherApi'
 import DailyWeather from '../features/card/DailyWeather';
 import CityCard from '../features/card/CityCard';
 
@@ -14,35 +15,26 @@ import CityCard from '../features/card/CityCard';
 const Weather = () => {
     const dispatch = useDispatch();
 
+    
     useEffect(() => {
     dispatch(getDailyForecast());
   }, [dispatch]);
 
     const [weatherDetails,setWeatherDetails] = useState([]);
-    const [showDays,setShowDays] = useState(false);
+    // const [showDays,setShowDays] = useState(false);
+    const [week,setWeek] = useState([])
     const [key,setKey] = useState("");
     const [suggestions,setSuggestions] = useState([]);
-    const [weatherWeek,setWeatherWeek] = useState([]);
+    const [currentWeather,setCurrentWeather] = useState([{WeatherText:"Tel Aviv",Temperature:{Metric:{Value:"50",Unit:"C"}}}]);
     const [text,setText] = useState("");
 
     const getCity = useSelector((state) => state.city);
+    const { cityDetails, isFavored, status, error } = getCity;
     
-        const { cityDetails, isFavored, status, error } = getCity;
 
     const getFiveDays = useSelector((state) => state.dailyForecast);
 
     const { dailyForecast } = getFiveDays;
-
-    
-
-    // const getWeatherDetails = async (id) => {
-    //     const query = `${id}?apikey=${apiKey}`
-
-    //     const res = await fetch(`${baseUrl}${query}`);
-    //     const data = await res.json();
-    //     return data[0];
-    // }
-
 
     const onSuggestHandler = async (text) => {
         setText(text);
@@ -76,13 +68,14 @@ const Weather = () => {
   };
 
   const getMyLocation = async ()=>{
-      const successCallback =  (position) => {
-           getCurrentLocation(position.coords.latitude,position.coords.longitude)
-          .then((data) => dispatch(getCityByLocationKey(data.Key)))
-
-            dispatch(getCurrentWeather(key))
-
-  };
+       const successCallback = async (position) => {
+        getCurrentLocation(position.coords.latitude,position.coords.longitude)
+          .then(async function(data) { 
+            dispatch(getCityByLocationKey(data.Key));
+            getCurrentWeather(data.Key).then((details)=>setCurrentWeather(details) )
+          })    
+  }
+//   dispatch(getCurrentWeather("212479"));
   const errorCallback = (error) => {
     console.log(error)
   };
@@ -114,11 +107,11 @@ navigator.geolocation.getCurrentPosition(successCallback , errorCallback)
             )} */}
              <WeatherBox >
             <WeatherBoxTop>
-                <div><CityCard  /></div>
+                <div><CityCard currentWeather={currentWeather} /></div>
                 <div>Add To Favorites<button onClick={()=> handleAddFavorite(cityDetails)}>Add</button></div>
             </WeatherBoxTop>
             <WeatherBoxCenter>
-                <h1> Will Change Weather Info</h1>
+                <h1>{currentWeather[0].WeatherText}</h1>
             </WeatherBoxCenter>
            <WeatherBoxBottom>
                {dailyForecast.map((day,i)=> 

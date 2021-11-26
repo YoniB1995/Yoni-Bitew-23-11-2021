@@ -11,12 +11,12 @@ const themeSlicer = createSlice({
     name:"theme",
     initialState,
     reducers:{
-         ChangeTheme(state,action){
+         changeTheme(state,action){
             state.theme = {background:"#141414",color:"white"};
             state.bg ="dark";
             state.text="white";
             },
-        BackToDefault(state,action){
+        backToDefault(state,action){
             state.theme = {background:"#f4f4f4",color:"black"};
             state.bg = "white";
             state.text = "dark";
@@ -25,7 +25,7 @@ const themeSlicer = createSlice({
         }}    
   );
 
-export const { changeTheme,BackToDefault} =
+export const { changeTheme,backToDefault} =
   themeSlicer.actions;
 
 export default themeSlicer.reducer;

@@ -1,4 +1,4 @@
-export const apiKey = process.env.REACT_APP_WEATHER_API_KEY
+export const apiKey = "83yfOAJNfGjIHsfFSarM7IGmIH8W8KlS"
 
 
 export const baseUrl = "http://dataservice.accuweather.com/currentconditions/v1/" //current weather
@@ -31,6 +31,15 @@ export const getCurrentLocation = async (lat,lon) => {
     const query = `?apikey=${apiKey}&q=${lat}%2C${lon}`;
 
     const myLocation = await fetch(`${currentLocation}${query}`)
+    .then((res) => res.json())
+
+    return myLocation;
+}
+
+export const getCurrentWeather = async (locationKey) => {
+    const query = `${locationKey}?apikey=${apiKey}`;
+
+    const myLocation = await fetch(`${baseUrl}${query}`)
     .then((res) => res.json())
 
     return myLocation;

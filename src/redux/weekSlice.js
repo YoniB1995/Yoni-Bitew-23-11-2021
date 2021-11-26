@@ -1,8 +1,7 @@
 import { createSlice , createAsyncThunk} from "@reduxjs/toolkit";
-import {fiveDaysForcast} from '../services/weatherApi'
-import {telAvivForecast} from '../services/mockCityApi'
-export const getDailyForecast = createAsyncThunk('weather/getDailyForecast', async () => {
-    return await fetch("http://dataservice.accuweather.com/forecasts/v1/daily/5day/215854?apikey=LKvJp99QBV1r1EtLGckCQqocK0zD2jgb").then((res)=> res.json()).then((data) => data.DailyForecasts)
+
+export const getDailyForecast = createAsyncThunk('weather/getDailyForecast', async (locationKey) => {
+    return await fetch("http://dataservice.accuweather.com/forecasts/v1/daily/5day/212479?apikey=83yfOAJNfGjIHsfFSarM7IGmIH8W8KlS").then((res)=> res.json()).then((data) => data.DailyForecasts)
 });
 
 const initialState = {
