@@ -2,11 +2,11 @@ import React,{useEffect} from 'react'
 import styled from 'styled-components'
 import Card from 'react-bootstrap/Card'
 import {useSelector} from 'react-redux'
-const DailyWeather = ({temp,desc,currentDay}) => {
+const DailyWeather = ({temp,desc,currentDay,isConverted}) => {
   const getTheme = useSelector((state) => state.theme);
-
-    const { bg,text } = getTheme;
+  const { bg,text } = getTheme;
   const {Value , Unit} = temp;
+  const convertedWeather = !isConverted ? Value +"°"+Unit : Math.round(((Value - 32) * 5 / 9).toFixed(2))+"°C"
     return (
         <div>
              <CardBody >
@@ -15,7 +15,7 @@ const DailyWeather = ({temp,desc,currentDay}) => {
     <Card.Body>
       <Card.Title>{currentDay}</Card.Title>
       <Card.Text>
-        {Value}°{Unit}
+        {convertedWeather}
       </Card.Text>
     </Card.Body>
     <Card.Footer>

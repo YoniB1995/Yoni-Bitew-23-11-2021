@@ -1,40 +1,50 @@
 import React, {useState,useEffect} from 'react'
-// import {apiKey,baseUrl,autoComplete} from '../../services/weatherApi'
+import {  useParams } from "react-router-dom";
+import Button from 'react-bootstrap/Button'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from "react-redux";
-import { addToFavorites } from "../../redux/favoritesSlice";
-import { getCityByLocationKey,ChangedToFavorite } from "../../redux/citySlicer";
-// import { getCurrentWeather} from "../../redux/cityWeatherSlice";
+import { addToFavorites,addWeatherLocationKey } from "../../redux/favoritesSlice";
+import { getCityByLocationKey, addToFavorite } from "../../redux/citySlicer";
 import { getDailyForecast } from "../../redux/weekSlice";
 import {daysWeek} from '../../services/mockCityApi'
-import {getAutoComplete, getCurrentLocation,getCurrentWeather} from '../../services/weatherApi'
+import {getAutoComplete, getCurrentLocation,getCurrentWeather,addToFavoritesByKey} from '../../services/weatherApi'
 import DailyWeather from '../features/card/DailyWeather';
 import CityCard from '../features/card/CityCard';
 
 
 const Weather = () => {
+    const cityParams = useParams();
+    useEffect(()=> {
+      
+      if(cityParams.id) {
+        dispatch(getDailyForecast(cityParams.id))
+       dispatch(getCityByLocationKey(cityParams.id))
+      } 
+    },[cityParams])
     const dispatch = useDispatch();
+    const getCity = useSelector((state) => state.city);
+    const { cityDetails,isFavorite} = getCity;
+    const getFiveDays = useSelector((state) => state.dailyForecast);
+    const { dailyForecast,status } = getFiveDays;
+    const list = useSelector((state) => state.favorites);
+    const {favoriteItems} = list;
 
     
     useEffect(() => {
-    dispatch(getDailyForecast());
+    if (!cityDetails.LocalizedName){
+       dispatch(getDailyForecast("215854"))
+       dispatch(getCityByLocationKey("215854"))
+    }
   }, [dispatch]);
 
     const [weatherDetails,setWeatherDetails] = useState([]);
-    // const [showDays,setShowDays] = useState(false);
-    const [week,setWeek] = useState([])
+    const [convert,setConvert] = useState(false)
     const [key,setKey] = useState("");
     const [suggestions,setSuggestions] = useState([]);
-    const [currentWeather,setCurrentWeather] = useState([{WeatherText:"Tel Aviv",Temperature:{Metric:{Value:"50",Unit:"C"}}}]);
+    const [currentWeather,setCurrentWeather] = useState([{WeatherText:"Tel Aviv",desc:"Very Sunny",Temperature:{Metric:{Value:"62",Unit:"F"},Imperial:{Value:"17",Unit:"C"}}}]);
     const [text,setText] = useState("");
 
-    const getCity = useSelector((state) => state.city);
-    const { cityDetails, isFavored, status, error } = getCity;
     
-
-    const getFiveDays = useSelector((state) => state.dailyForecast);
-
-    const { dailyForecast } = getFiveDays;
 
     const onSuggestHandler = async (text) => {
         setText(text);
@@ -52,36 +62,40 @@ const Weather = () => {
             })
         }
         setSuggestions(matches)
-
         setText(location)
     }
     
     const getCityLocation =  () => {
         console.log(cityDetails)
-        
-
     }
 
-    const handleAddFavorite = (product) => {
-    dispatch(addToFavorites(product));
-    dispatch(ChangedToFavorite())
+    const handleAddFavorite = (city) => {
+    dispatch(addToFavorites(city));
+    addToFavoritesByKey(city.Key).then((data)=> dispatch(addWeatherLocationKey(data)))
+    dispatch(addToFavorite())
+    
   };
 
   const getMyLocation = async ()=>{
        const successCallback = async (position) => {
         getCurrentLocation(position.coords.latitude,position.coords.longitude)
-          .then(async function(data) { 
+          .then( function(data) { 
             dispatch(getCityByLocationKey(data.Key));
             getCurrentWeather(data.Key).then((details)=>setCurrentWeather(details) )
-          })    
+            dispatch(getDailyForecast(data.Key))
+
+          })
   }
-//   dispatch(getCurrentWeather("212479"));
+
   const errorCallback = (error) => {
     console.log(error)
   };
 navigator.geolocation.getCurrentPosition(successCallback , errorCallback)
   }
 
+  if (status === "loading") {
+    return <WeatherPageBody><h3>Loading...</h3></WeatherPageBody>;
+  }
 
     return (
         <WeatherPageBody className="animate__animated animate__fadeInDown">
@@ -100,28 +114,29 @@ navigator.geolocation.getCurrentPosition(successCallback , errorCallback)
                 return <OptionsList key={i} onClick={()=> onSuggestHandler(suggestion.LocalizedName)}>{suggestion.LocalizedName}</OptionsList>
             })}
 
-             
 
-            {/* {showDays && weatherWeek?.DailyForecasts.map((oneDay,i)=> 
-                <DailyWeather key={i} num={i} title={oneDay.Day.IconPhrase} maxWeather={oneDay.Temperature.Maximum} minWeather={oneDay.Temperature.Minimum}/>
-            )} */}
              <WeatherBox >
             <WeatherBoxTop>
-                <div><CityCard currentWeather={currentWeather} /></div>
-                <div>Add To Favorites<button onClick={()=> handleAddFavorite(cityDetails)}>Add</button></div>
+                <div><CityCard currentWeather={currentWeather} isConverted={convert} /></div>
+                <div>
+                  <Button variant="outline-primary" onClick={()=>!convert ? setConvert(true) : setConvert(false)}>Convert °C/°F</Button>
+                   {isFavorite === true ? 
+                   <Button variant="outline-danger">Remove from Favorites</Button> :
+                   <Button variant="outline-success"  onClick={()=> handleAddFavorite(cityDetails)}>Add to Favorites</Button> }
+                
+                
+                </div>
+                
             </WeatherBoxTop>
             <WeatherBoxCenter>
-                <h1>{currentWeather[0].WeatherText}</h1>
+                <h1>Very Sunny</h1>
             </WeatherBoxCenter>
            <WeatherBoxBottom>
-               {dailyForecast.map((day,i)=> 
-<DailyWeather key={i} temp={day.Temperature.Minimum} desc={day.Day.IconPhrase} currentDay={daysWeek[i]}/>
-               )}
-                
+               {dailyForecast?.map((day,i)=> 
+               <DailyWeather key={i} temp={day.Temperature.Minimum} desc={day.Day.IconPhrase} isConverted={convert} currentDay={daysWeek[i]}/>
+               )}  
             </WeatherBoxBottom>
             </WeatherBox>
-            
-           
         </WeatherPageBody>
     )
 }
@@ -130,7 +145,7 @@ export default Weather
 
 
 const WeatherPageBody = styled.div` 
-height:100%;
+height:100vh;
 background: url('https://images.pexels.com/photos/1162251/pexels-photo-1162251.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260') no-repeat center / cover;
   color: #fff;
 display:flex;

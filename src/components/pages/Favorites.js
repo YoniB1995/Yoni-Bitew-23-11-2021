@@ -8,15 +8,15 @@ import {
 } from "../../redux/favoritesSlice";
 
 const Favorites = () => {
-  
-     const list = useSelector((state) => state.favorites);
   const dispatch = useDispatch();
+  const list = useSelector((state) => state.favorites);
+  const {favoriteWeather , favoriteItems} = list;
 
   
-  const handleRemoveFromCart = (product) => {
+  const handleRemove = (product) => {
     dispatch(removeFromFavorites(product));
   };
-  const handleClearCart = () => {
+  const handleClearFavorites = () => {
     dispatch(clearFavorites());
   };
 
@@ -31,10 +31,12 @@ const Favorites = () => {
             <h2>Favorites</h2>
             <button onClick={getDetails} >Get Items</button>
             <List>
-            {list.favoriteItems?.map((item,i)=>
-            <FavoritesCard key={i} title={item.name} itemId={item.temp} />
+            {favoriteWeather?.map((item,i)=>
+            <FavoritesCard key={i} city={favoriteItems[i].LocalizedName} desc={favoriteWeather["0"].WeatherText} cityKey={favoriteItems[i].Key} 
+            // celsius={favoriteWeather["0"].Temperature.Metric}
+            />
             )}</List>
-            <button onClick={handleClearCart}>Clear Favorites</button>
+            <button onClick={handleClearFavorites}>Clear Favorites</button>
             </FavoritesBox>
         </FavoritesBody>
         

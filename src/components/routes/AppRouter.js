@@ -11,6 +11,7 @@ const AppRouter = () => {
             <Header/>
             <Routes>
                 <Route exact path="/" element={<Weather/>}></Route> 
+                <Route exact path="/:id" element={<Weather/>}></Route> 
                 <Route exact path="/favorites" element={<Favorites/>}></Route> 
             </Routes>
         </Router>

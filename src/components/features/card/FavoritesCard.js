@@ -1,22 +1,26 @@
 import React from 'react'
+import {Link,useNavigate } from 'react-router-dom'
+import Button from 'react-bootstrap/Button'
 import styled from 'styled-components'
 import Card from 'react-bootstrap/Card'
-
-const FavoritesCard = ({title,itemId}) => {
-  
+import {useSelector} from 'react-redux'
+const FavoritesCard = ({city,desc,celsius,cityKey}) => {
+  const navigate = useNavigate ();
+  const getTheme = useSelector((state) => state.theme);
+  const { bg,text } = getTheme;
     return (
         <CardBody>
-        <Card>
-    <Card.Img variant="top" src="holder.js/100px160" />
+        <Card bg={bg} text={text}>
+    <i class="fas fa-star" style={{color:"gold"}}></i>
     <Card.Body>
-      <Card.Title>{title}</Card.Title>
+      <Card.Title>{city}</Card.Title>
       <Card.Text>
-        This is a wider card with supporting text below as a natural lead-in to
-        additional content. This content is a little bit longer.
+        {/* {celsius.Value}°{celsius.Unit} */}
+        <Button variant="primary" onClick={()=> navigate(`/${cityKey}`)}>Get Details</Button>
       </Card.Text>
     </Card.Body>
     <Card.Footer>
-      <small className="text-muted">{itemId}</small>
+      <small className="text-muted">{desc}</small>
     </Card.Footer>
   </Card>
   </CardBody>
@@ -29,6 +33,5 @@ export default FavoritesCard
 const CardBody = styled.div` 
 display:flex;
 margin:1rem;
-width:30%;
 color:black;
 `

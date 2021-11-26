@@ -1,10 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {toast} from "react-toastify";
 
 
 const initialState = {
     favoriteItems:localStorage.getItem("favoriteItems") ? JSON.parse(localStorage.getItem("favoriteItems")): [],
-    favoritesTotalAmount:0,
+    favoriteWeather:[],
     status: null,
 }
 
@@ -20,7 +20,7 @@ const favoriteSlicer = createSlice({
                     position: "bottom-left",
                 })
             } else {
-                const favoriteList = {...action.payload, cartQuantity:1}
+                const favoriteList = {...action.payload, isFavorite:true}
             state.favoriteItems.push(favoriteList);
             toast.success(`added ${action.payload.title} to favorites `,{
                     position: "bottom-left",
@@ -28,6 +28,10 @@ const favoriteSlicer = createSlice({
             }
             localStorage.setItem("favoriteItems",JSON.stringify(state.favoriteItems));
 
+        },
+         addWeatherLocationKey(state,action){
+                
+            state.favoriteWeather.push({...action.payload});
         },
     removeFromFavorites(state, action) {
       state.favoriteItems.map((favorite) => {
@@ -48,13 +52,14 @@ const favoriteSlicer = createSlice({
     },
     clearFavorites(state, action) {
       state.favoriteItems = [];
+      state.favoriteWeather= [];
       localStorage.setItem("favoriteItems", JSON.stringify(state.favoriteItems));
-      toast.error("Favorites cleared", { position: "bottom-left" });
+      toast.success("Favorites cleared", { position: "bottom-left" });
     },
   },
 });
 
-export const { addToFavorites, removeFromFavorites, clearFavorites } =
+export const { addToFavorites, removeFromFavorites, clearFavorites,addWeatherLocationKey } =
   favoriteSlicer.actions;
 
 export default favoriteSlicer.reducer;

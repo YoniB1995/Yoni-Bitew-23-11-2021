@@ -1,4 +1,4 @@
-export const apiKey = "83yfOAJNfGjIHsfFSarM7IGmIH8W8KlS"
+export const apiKey = "SZ8tjvSP35r99GtvKx2hEnHYhDnlZldh"
 
 
 export const baseUrl = "http://dataservice.accuweather.com/currentconditions/v1/" //current weather
@@ -44,3 +44,7 @@ export const getCurrentWeather = async (locationKey) => {
 
     return myLocation;
 }
+
+export const addToFavoritesByKey =  async (locationKey) => {
+    return await fetch(`https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${apiKey}`).then((res)=> res.json())
+};
