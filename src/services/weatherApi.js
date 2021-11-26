@@ -1,4 +1,4 @@
-export const apiKey = "SZ8tjvSP35r99GtvKx2hEnHYhDnlZldh"
+export const apiKey = "7RVjxHOlcH1jCtJpY2C8jA7rHvjpqaWJ"
 
 
 export const baseUrl = "http://dataservice.accuweather.com/currentconditions/v1/" //current weather

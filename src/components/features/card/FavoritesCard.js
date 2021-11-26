@@ -15,7 +15,9 @@ const FavoritesCard = ({city,desc,celsius,cityKey}) => {
     <Card.Body>
       <Card.Title>{city}</Card.Title>
       <Card.Text>
-        {/* {celsius.Value}°{celsius.Unit} */}
+        {Math.floor(celsius.Metric.Value)}°{celsius.Metric.Unit}
+      </Card.Text>
+      <Card.Text>
         <Button variant="primary" onClick={()=> navigate(`/${cityKey}`)}>Get Details</Button>
       </Card.Text>
     </Card.Body>

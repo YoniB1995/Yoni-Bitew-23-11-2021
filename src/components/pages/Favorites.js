@@ -1,39 +1,28 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import FavoritesCard from '../features/card/FavoritesCard'
 import { useSelector, useDispatch } from "react-redux";
-import {
-  clearFavorites,
-  removeFromFavorites
-} from "../../redux/favoritesSlice";
+import {clearFavorites} from "../../redux/favoritesSlice";
 
 const Favorites = () => {
   const dispatch = useDispatch();
   const list = useSelector((state) => state.favorites);
   const {favoriteWeather , favoriteItems} = list;
 
-  
-  const handleRemove = (product) => {
-    dispatch(removeFromFavorites(product));
-  };
   const handleClearFavorites = () => {
     dispatch(clearFavorites());
   };
 
-  const getDetails = () => {
-      console.log(list.favoriteItems)
-  }
   
     return (
         
         <FavoritesBody className="animate__animated animate__fadeInUp">
             <FavoritesBox>
             <h2>Favorites</h2>
-            <button onClick={getDetails} >Get Items</button>
             <List>
             {favoriteWeather?.map((item,i)=>
-            <FavoritesCard key={i} city={favoriteItems[i].LocalizedName} desc={favoriteWeather["0"].WeatherText} cityKey={favoriteItems[i].Key} 
-            // celsius={favoriteWeather["0"].Temperature.Metric}
+            <FavoritesCard key={i} city={favoriteItems[i].LocalizedName} desc={favoriteWeather["0"]["0"].WeatherText} cityKey={favoriteItems[i].Key} 
+            celsius={favoriteWeather["0"]["0"].Temperature}
             />
             )}</List>
             <button onClick={handleClearFavorites}>Clear Favorites</button>

@@ -1,11 +1,10 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import {toast} from "react-toastify";
 
 
 const initialState = {
     favoriteItems:localStorage.getItem("favoriteItems") ? JSON.parse(localStorage.getItem("favoriteItems")): [],
     favoriteWeather:[],
-    status: null,
 }
 
 
@@ -14,18 +13,12 @@ const favoriteSlicer = createSlice({
     initialState,
     reducers:{
         addToFavorites(state,action){
-            const itemIndex = state.favoriteItems.findIndex(item => item._id === action.payload._id);
-            if (itemIndex > 0){
-                toast.error(`Can't add to favorites , already favored.`,{
-                    position: "bottom-left",
-                })
-            } else {
-                const favoriteList = {...action.payload, isFavorite:true}
+
+                const favoriteList = {...action.payload}
             state.favoriteItems.push(favoriteList);
-            toast.success(`added ${action.payload.title} to favorites `,{
+            toast.success(`added ${action.payload.LocalizedName} to favorites `,{
                     position: "bottom-left",
                 })
-            }
             localStorage.setItem("favoriteItems",JSON.stringify(state.favoriteItems));
 
         },
@@ -41,8 +34,8 @@ const favoriteSlicer = createSlice({
           );
 
           state.favoriteItems = nextFavoriteItems;
-
-          toast.error(`${action.payload.title} removed from favorites`, {
+          state.favoriteWeather= nextFavoriteItems;
+          toast.error(`${action.payload.LocalizedName} removed from favorites`, {
             position: "bottom-left",
           });
         }

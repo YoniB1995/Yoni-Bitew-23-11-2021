@@ -4,11 +4,10 @@ import Card from 'react-bootstrap/Card'
 import { useSelector } from "react-redux";
 
 const CityCard = ({currentWeather,isConverted}) => {
-  // const {Value , Unit} = details.current.Temperature.Metric;
   const getTheme = useSelector((state) => state.theme);
 const getCity = useSelector((state) => state.city);
     
-  const {  cityDetails, isFavored, status, error } = getCity;
+  const {  cityDetails } = getCity;
   const convertedWeather = !isConverted? currentWeather[0].Temperature.Metric.Value +"°" +currentWeather[0].Temperature.Metric.Unit
       :
       currentWeather[0].Temperature.Imperial.Value+ "°" +currentWeather[0].Temperature.Imperial.Unit;

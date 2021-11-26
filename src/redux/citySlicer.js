@@ -2,7 +2,7 @@ import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 import {baseUrl} from '../services/weatherApi'
 
 export const getCityByLocationKey = createAsyncThunk('city/getCityLocation', async (locationKey) => {
-    return await fetch(`https://dataservice.accuweather.com/locations/v1/${locationKey}?apikey=SZ8tjvSP35r99GtvKx2hEnHYhDnlZldh`).then((res)=> res.json()).then(data=> data)
+    return await fetch(`https://dataservice.accuweather.com/locations/v1/${locationKey}?apikey=7RVjxHOlcH1jCtJpY2C8jA7rHvjpqaWJ`).then((res)=> res.json()).then(data=> data)
 });
 
 
@@ -22,6 +22,9 @@ const citySlicer = createSlice({
             },
         addToFavorite(state,action){
             state.isFavorite = true
+            },
+        removeFavorite(state,action){
+            state.isFavorite = false
             }
         } ,
     extraReducers:{
@@ -39,7 +42,7 @@ const citySlicer = createSlice({
     }
     });
 
-export const { getCityDetails,addToFavorite} =
+export const { getCityDetails,addToFavorite, removeFavorite} =
   citySlicer.actions;
 
 export default citySlicer.reducer;
