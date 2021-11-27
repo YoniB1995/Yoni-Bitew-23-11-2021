@@ -6,6 +6,7 @@ import Card from 'react-bootstrap/Card'
 import {useSelector} from 'react-redux'
 const FavoritesCard = ({city,desc,celsius,cityKey}) => {
   const navigate = useNavigate ();
+  
   const getTheme = useSelector((state) => state.theme);
   const { bg,text } = getTheme;
     return (

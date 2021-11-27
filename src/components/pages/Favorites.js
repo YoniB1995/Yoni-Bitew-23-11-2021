@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import FavoritesCard from '../features/card/FavoritesCard'
+import Button from 'react-bootstrap/Button'
 import { useSelector, useDispatch } from "react-redux";
 import {clearFavorites} from "../../redux/favoritesSlice";
 
@@ -21,11 +22,11 @@ const Favorites = () => {
             <h2>Favorites</h2>
             <List>
             {favoriteWeather?.map((item,i)=>
-            <FavoritesCard key={i} city={favoriteItems[i].LocalizedName} desc={favoriteWeather["0"]["0"].WeatherText} cityKey={favoriteItems[i].Key} 
-            celsius={favoriteWeather["0"]["0"].Temperature}
+            <FavoritesCard key={i} city={favoriteItems[i].LocalizedName} desc={favoriteWeather[i]["0"].WeatherText} cityKey={favoriteItems[i].Key} 
+            celsius={favoriteWeather[i]["0"].Temperature}
             />
             )}</List>
-            <button onClick={handleClearFavorites}>Clear Favorites</button>
+            <Button onClick={handleClearFavorites} variant="danger">Clear Favorites</Button>
             </FavoritesBox>
         </FavoritesBody>
         

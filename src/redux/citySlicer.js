@@ -2,14 +2,14 @@ import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 import {baseUrl} from '../services/weatherApi'
 
 export const getCityByLocationKey = createAsyncThunk('city/getCityLocation', async (locationKey) => {
-    return await fetch(`https://dataservice.accuweather.com/locations/v1/${locationKey}?apikey=7RVjxHOlcH1jCtJpY2C8jA7rHvjpqaWJ`).then((res)=> res.json()).then(data=> data)
+    return await fetch(`https://dataservice.accuweather.com/locations/v1/${locationKey}?apikey=qA7oG2AXKewo19jivmHw9STJlmUqpHLV`).then((res)=> res.json()).then(data=> data)
 });
 
 
 const initialState = {
     cityDetails : {},
-    isFavorite:false,
-    status:null
+    currentCondition:[],
+    isLoading:null
 }
 
 
@@ -20,29 +20,26 @@ const citySlicer = createSlice({
         getCityDetails(state,action){
             state.cityDetails = action.payload
             },
-        addToFavorite(state,action){
-            state.isFavorite = true
-            },
-        removeFavorite(state,action){
-            state.isFavorite = false
-            }
+        getCurrentCondition(state,{payload}){
+            state.currentCondition = {...payload};
+        },
         } ,
     extraReducers:{
         [getCityByLocationKey.pending] : (state, action) => {
-            state.status = 'loading'
+            state.isLoading = 'loading'
         },
         [getCityByLocationKey.fulfilled] : (state, {payload}) => {
             state.cityDetails = payload
-            state.status = 'success'
+            state.isLoading = 'success'
         },
         [getCityByLocationKey.rejected] : (state, action) => {
-            state.status = 'failed'
+            state.isLoading = 'failed'
         },
 
     }
     });
 
-export const { getCityDetails,addToFavorite, removeFavorite} =
+export const { getCityDetails,addToFavorite, removeFavorite,getCurrentCondition} =
   citySlicer.actions;
 
 export default citySlicer.reducer;

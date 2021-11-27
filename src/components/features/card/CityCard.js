@@ -3,14 +3,13 @@ import styled from 'styled-components'
 import Card from 'react-bootstrap/Card'
 import { useSelector } from "react-redux";
 
-const CityCard = ({currentWeather,isConverted}) => {
+const CityCard = ({isConverted}) => {
   const getTheme = useSelector((state) => state.theme);
 const getCity = useSelector((state) => state.city);
     
-  const {  cityDetails } = getCity;
-  const convertedWeather = !isConverted? currentWeather[0].Temperature.Metric.Value +"°" +currentWeather[0].Temperature.Metric.Unit
-      :
-      currentWeather[0].Temperature.Imperial.Value+ "°" +currentWeather[0].Temperature.Imperial.Unit;
+  const {  cityDetails,currentCondition } = getCity;
+  const {Metric,Imperial} = currentCondition["0"].Temperature
+  const convertedWeather = !isConverted? Math.floor(Metric.Value) +"°" +Metric.Unit : Math.floor(Imperial.Value)+ "°" +Imperial.Unit;
     const {bg,text } = getTheme;
     return (
         <div>
@@ -22,7 +21,7 @@ const getCity = useSelector((state) => state.city);
       {convertedWeather}
       </Card.Title>
       <Card.Text>
-         <small className="text-muted">{currentWeather[0].desc}</small>
+         <small className="text-muted">{currentCondition["0"].WeatherText}</small>
       </Card.Text>
     </Card.Body>
   </Card>
