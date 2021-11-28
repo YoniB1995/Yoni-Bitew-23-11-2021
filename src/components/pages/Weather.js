@@ -107,9 +107,12 @@ const Weather = () => {
   };
 navigator.geolocation.getCurrentPosition(successCallback , errorCallback)
   }
-
-  if (status === "loading" || isLoading === "loading" || isLoading === "failed") {
+ 
+  if (status === "loading" || isLoading === "loading") {
     return <LoadingPageBody ><h3>Loading...</h3></LoadingPageBody>;
+  }
+  if (isLoading === "failed") {
+    return <LoadingPageBody ><h3>Error Loading,Check your API Key Limits / Server Connection...</h3></LoadingPageBody>;
   }
 
     return (
