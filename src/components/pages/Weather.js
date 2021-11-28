@@ -5,7 +5,7 @@ import FormControl from 'react-bootstrap/FormControl'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from "react-redux";
 import { addToFavorites,addWeatherLocationKey,removeFromFavorites } from "../../redux/favoritesSlice";
-import { getCityByLocationKey, addToFavorite, removeFavorite, getCurrentCondition } from "../../redux/citySlicer";
+import { getCityByLocationKey, getCurrentCondition } from "../../redux/citySlicer";
 import { getDailyForecast } from "../../redux/weekSlice";
 import {daysWeek} from '../../services/mockCityApi'
 import {getAutoComplete, getCurrentLocation,getCurrentWeather,addToFavoritesByKey} from '../../services/weatherApi'
@@ -29,7 +29,7 @@ const Weather = () => {
       if(cityParams.id) {
         dispatch(getDailyForecast(cityParams.id))
        dispatch(getCityByLocationKey(cityParams.id))
-      getCurrentWeather(cityParams.id).then((data)=> dispatch(getCurrentCondition(data)))
+      getCurrentWeather(cityParams.id).then((data)=> dispatch(getCurrentCondition(data))).catch((error)=> console.log(error))
        favoriteItems.map((favorite)=> favorite.Key === cityParams.id ? setFavor(true) : setFavor(false))
        console.log(favor)
       } 
@@ -41,7 +41,7 @@ const Weather = () => {
     
     useEffect(() => {
     if (!cityDetails.LocalizedName){
-      getCurrentWeather("215854").then((details)=>dispatch(getCurrentCondition(details)))
+      getCurrentWeather("215854").then((details)=>dispatch(getCurrentCondition(details))).catch(error=> console.log(error))
        dispatch(getDailyForecast("215854"))
        dispatch(getCityByLocationKey("215854"))
 
@@ -57,7 +57,7 @@ const Weather = () => {
 
     const onSuggestHandler = async (text) => {
         setText(text);
-        await getAutoComplete(text).then((data) => setWeatherDetails(data))
+        await getAutoComplete(text).then((data) => setWeatherDetails(data)).catch((error)=> console.log(error))
         setSuggestions([]);
     }
 
@@ -70,7 +70,7 @@ const Weather = () => {
             matches =  data
         }
         return matches;
-        })
+        }).catch((error)=> console.log(error))
         
        
         setSuggestions(matches)
@@ -80,7 +80,7 @@ const Weather = () => {
     const handleAddFavorite = (city) => {
       setFavor(true)
     dispatch(addToFavorites(city));
-    addToFavoritesByKey(city.Key).then((data)=> dispatch(addWeatherLocationKey(data)))    
+    addToFavoritesByKey(city.Key).then((data)=> dispatch(addWeatherLocationKey(data))).catch((error)=> console.log(error))    
   };
 
   const handleRemoveFavorite = (city) => {
@@ -99,8 +99,7 @@ const Weather = () => {
             dispatch(getCityByLocationKey(data.Key));
             getCurrentWeather(data.Key).then((details)=>dispatch(getCurrentCondition(details) ))
             dispatch(getDailyForecast(data.Key))
-            dispatch(removeFavorite())
-          })
+          }).catch((error)=> console.log(error))
   }
 
   const errorCallback = (error) => {
@@ -129,7 +128,7 @@ navigator.geolocation.getCurrentPosition(successCallback , errorCallback)
 
              <WeatherBox >
             <WeatherBoxTop>
-                <div><CityCard  isConverted={convert} /></div>
+                <div>{isLoading === null ? <h2>Loading...</h2> :<CityCard  isConverted={convert} />}</div>
                 <div>
                   <Button variant="outline-primary" style={{marginRight:"5px"}} onClick={()=>!convert ? setConvert(true) : setConvert(false)}>Convert °C/°F</Button>
                    {favor ? 
@@ -139,8 +138,7 @@ navigator.geolocation.getCurrentPosition(successCallback , errorCallback)
                 
             </WeatherBoxTop>
             <WeatherBoxCenter>
-                <h1>{currentCondition["0"].WeatherText }</h1>
-                <h1>Test</h1>
+                {isLoading === null ? <h3>Loading...</h3> : <h1>{currentCondition["0"].WeatherText} </h1>}
             </WeatherBoxCenter>
            <WeatherBoxBottom>
                {dailyForecast?.map((day,i)=> 

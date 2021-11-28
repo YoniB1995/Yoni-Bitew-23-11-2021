@@ -1,8 +1,8 @@
 import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
-import {baseUrl} from '../services/weatherApi'
+import {SearchByLocationKey,apiKey} from '../services/weatherApi'
 
 export const getCityByLocationKey = createAsyncThunk('city/getCityLocation', async (locationKey) => {
-    return await fetch(`https://dataservice.accuweather.com/locations/v1/${locationKey}?apikey=qA7oG2AXKewo19jivmHw9STJlmUqpHLV`).then((res)=> res.json()).then(data=> data)
+    return await fetch(`${SearchByLocationKey}${locationKey}?apikey=${apiKey}`).then((res)=> res.json()).then(data=> data)
 });
 
 
@@ -39,7 +39,7 @@ const citySlicer = createSlice({
     }
     });
 
-export const { getCityDetails,addToFavorite, removeFavorite,getCurrentCondition} =
+export const { getCityDetails,addToFavorite,getCurrentCondition} =
   citySlicer.actions;
 
 export default citySlicer.reducer;
