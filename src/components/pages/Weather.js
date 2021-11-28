@@ -108,7 +108,7 @@ const Weather = () => {
 navigator.geolocation.getCurrentPosition(successCallback , errorCallback)
   }
 
-  if (status === "loading" || isLoading === "loading") {
+  if (status === "loading" || isLoading === "loading" || isLoading === "failed") {
     return <LoadingPageBody ><h3>Loading...</h3></LoadingPageBody>;
   }
 
@@ -128,7 +128,7 @@ navigator.geolocation.getCurrentPosition(successCallback , errorCallback)
 
              <WeatherBox >
             <WeatherBoxTop>
-                <div>{isLoading === null ? <h2>Loading...</h2> :<CityCard  isConverted={convert} />}</div>
+                <div>{isLoading === null || isLoading === "failed" ? <h2>Loading...</h2> :<CityCard  isConverted={convert} />}</div>
                 <div>
                   <Button variant="outline-primary" style={{marginRight:"5px"}} onClick={()=>!convert ? setConvert(true) : setConvert(false)}>Convert °C/°F</Button>
                    {favor ? 
@@ -138,7 +138,7 @@ navigator.geolocation.getCurrentPosition(successCallback , errorCallback)
                 
             </WeatherBoxTop>
             <WeatherBoxCenter>
-                {isLoading === null ? <h3>Loading...</h3> : <h1>{currentCondition["0"].WeatherText} </h1>}
+                {isLoading === null || isLoading === "failed" ? <h3>Loading...</h3> : <h1>{currentCondition["0"].WeatherText} </h1>}
             </WeatherBoxCenter>
            <WeatherBoxBottom>
                {dailyForecast?.map((day,i)=> 
