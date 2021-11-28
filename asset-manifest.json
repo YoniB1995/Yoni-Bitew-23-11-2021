@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/Yoni-Bitew-23-11-2021/static/css/main.5bcf396c.chunk.css",
+    "main.js": "/Yoni-Bitew-23-11-2021/static/js/main.e19881a4.chunk.js",
+    "main.js.map": "/Yoni-Bitew-23-11-2021/static/js/main.e19881a4.chunk.js.map",
+    "runtime-main.js": "/Yoni-Bitew-23-11-2021/static/js/runtime-main.00bcd152.js",
+    "runtime-main.js.map": "/Yoni-Bitew-23-11-2021/static/js/runtime-main.00bcd152.js.map",
+    "static/css/2.dc692443.chunk.css": "/Yoni-Bitew-23-11-2021/static/css/2.dc692443.chunk.css",
+    "static/js/2.84dd0876.chunk.js": "/Yoni-Bitew-23-11-2021/static/js/2.84dd0876.chunk.js",
+    "static/js/2.84dd0876.chunk.js.map": "/Yoni-Bitew-23-11-2021/static/js/2.84dd0876.chunk.js.map",
+    "static/js/3.2e615a44.chunk.js": "/Yoni-Bitew-23-11-2021/static/js/3.2e615a44.chunk.js",
+    "static/js/3.2e615a44.chunk.js.map": "/Yoni-Bitew-23-11-2021/static/js/3.2e615a44.chunk.js.map",
+    "index.html": "/Yoni-Bitew-23-11-2021/index.html",
+    "static/css/2.dc692443.chunk.css.map": "/Yoni-Bitew-23-11-2021/static/css/2.dc692443.chunk.css.map",
+    "static/css/main.5bcf396c.chunk.css.map": "/Yoni-Bitew-23-11-2021/static/css/main.5bcf396c.chunk.css.map",
+    "static/js/2.84dd0876.chunk.js.LICENSE.txt": "/Yoni-Bitew-23-11-2021/static/js/2.84dd0876.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.00bcd152.js",
+    "static/css/2.dc692443.chunk.css",
+    "static/js/2.84dd0876.chunk.js",
+    "static/css/main.5bcf396c.chunk.css",
+    "static/js/main.e19881a4.chunk.js"
+  ]
+}
