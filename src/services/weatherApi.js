@@ -1,11 +1,11 @@
-export const apiKey = "Y6FKUNOheqgVK1r1ofAquGXr7a4wDu9O"
+export const apiKey = process.env.REACT_APP_WEATHER_API_KEY 
 
 
-export const baseUrl = "http://dataservice.accuweather.com/currentconditions/v1/" //current weather
-export const SearchByLocationKey = "http://dataservice.accuweather.com/locations/v1/"
-export const fiveDaysForcast = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/"
-export const autoComplete = "http://dataservice.accuweather.com/locations/v1/cities/autocomplete"
-export const currentLocation = "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search"
+export const baseUrl = "https://dataservice.accuweather.com/currentconditions/v1/" //current weather
+export const SearchByLocationKey = "https://dataservice.accuweather.com/locations/v1/"
+export const fiveDaysForcast = "https://dataservice.accuweather.com/forecasts/v1/daily/5day/"
+export const autoComplete = "https://dataservice.accuweather.com/locations/v1/cities/autocomplete"
+export const currentLocation = "https://dataservice.accuweather.com/locations/v1/cities/geoposition/search"
 
 export const getAutoComplete = async (city) => {
         const query = `?apikey=${apiKey}&q=${city}`
