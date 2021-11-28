@@ -1,4 +1,4 @@
-export const apiKey = process.env.REACT_APP_WEATHER_API_KEY
+export const apiKey = "Y6FKUNOheqgVK1r1ofAquGXr7a4wDu9O"
 
 
 export const baseUrl = "http://dataservice.accuweather.com/currentconditions/v1/" //current weather
