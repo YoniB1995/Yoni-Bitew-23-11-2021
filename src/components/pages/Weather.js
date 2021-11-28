@@ -24,6 +24,7 @@ const Weather = () => {
     const list = useSelector((state) => state.favorites);
     const {favoriteItems} = list;
     const [text,setText] = useState("");
+    const [error,setError] = useState("")
 
     useEffect(()=> {
       if(cityParams.id) {
@@ -31,7 +32,6 @@ const Weather = () => {
        dispatch(getCityByLocationKey(cityParams.id))
       getCurrentWeather(cityParams.id).then((data)=> dispatch(getCurrentCondition(data))).catch((error)=> console.log(error))
        favoriteItems.map((favorite)=> favorite.Key === cityParams.id ? setFavor(true) : setFavor(false))
-       console.log(favor)
       } 
       else {
         favoriteItems.map((favorite)=> favorite.LocalizedName === cityDetails.LocalizedName ? setFavor(true) : setFavor(false))
@@ -64,13 +64,13 @@ const Weather = () => {
     const onChangeHandler = async (e) => {
       let searchInput = e.target.value
       let matches = [];
-        await getAutoComplete(searchInput).then((data) => 
+        await getAutoComplete(searchInput.toLowerCase()).then((data) => 
         {  
-           if (searchInput.length > 0) {
+           if (searchInput.length >= 0) {
             matches =  data
         }
         return matches;
-        }).catch((error)=> console.log(error))
+        }).catch((error)=> setError(error))
         
        
         setSuggestions(matches)
@@ -124,6 +124,7 @@ navigator.geolocation.getCurrentPosition(successCallback , errorCallback)
             <Button variant="primary" style={{marginLeft:"5px"}} onClick={getMyLocation}>My Location <i class="fa fa-map-marker" aria-hidden="true"></i></Button>
             
             </span>
+            {error}
             {suggestions && suggestions.map((suggestion,i)=> {
                 return <OptionsList key={i} onClick={()=> onSuggestHandler(suggestion.LocalizedName)}>{suggestion.LocalizedName}</OptionsList>
             })}
@@ -141,7 +142,7 @@ navigator.geolocation.getCurrentPosition(successCallback , errorCallback)
                 
             </WeatherBoxTop>
             <WeatherBoxCenter>
-                {isLoading === null || isLoading === "failed" ? <h3>Loading...</h3> : <h1>{currentCondition["0"].WeatherText} </h1>}
+                {isLoading === null ? <h3>Loading...</h3> : <h1>{currentCondition["0"].WeatherText} </h1>}
             </WeatherBoxCenter>
            <WeatherBoxBottom>
                {dailyForecast?.map((day,i)=> 
