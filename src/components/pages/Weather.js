@@ -62,6 +62,15 @@ const Weather = () => {
     }
 
     const onChangeHandler = async (e) => {
+    const regex = /[A-Za-z]/;
+    const chars = e.target.value.split('');
+    const char = chars.pop();
+     if (!regex.test(char)) {
+      e.target.value = chars.join('');
+      alert("Please enter only alphabets");
+      e.preventDefault();
+      return;
+     }
       let searchInput = e.target.value
       let matches = [];
         await getAutoComplete(searchInput.toLowerCase()).then((data) => 
@@ -92,9 +101,9 @@ const Weather = () => {
     navigate(`/${weatherDetails[0].Key}`)
   }
 
-  const getMyLocation = async ()=>{
+  const getMyLocation =  ()=>{
        const successCallback = async (position) => {
-        getCurrentLocation(position.coords.latitude,position.coords.longitude)
+        await getCurrentLocation(position.coords.latitude,position.coords.longitude)
           .then( function(data) { 
             dispatch(getCityByLocationKey(data.Key));
             getCurrentWeather(data.Key).then((details)=>dispatch(getCurrentCondition(details) ))
@@ -107,6 +116,7 @@ const Weather = () => {
   };
 navigator.geolocation.getCurrentPosition(successCallback , errorCallback)
   }
+
  
   if (status === "loading" || isLoading === "loading") {
     return <LoadingPageBody ><h3>Loading...</h3></LoadingPageBody>;
@@ -119,7 +129,7 @@ navigator.geolocation.getCurrentPosition(successCallback , errorCallback)
         <WeatherPageBody className="animate__animated animate__fadeInDown">
             <h2>Type your destination</h2>
             <span style={{display:"flex",flexDirection:"row"}}><Button variant="primary" onClick={searchCityInput}><i class="fas fa-search"></i></Button>
-            <FormControl aria-label="Small" aria-describedby="inputGroup-sizing-sm" onChange={onChangeHandler}
+            <FormControl aria-label="Small" aria-describedby="inputGroup-sizing-sm" onChange={onChangeHandler} pattern="[a-zA-Z]"
             value={text} />
             <Button variant="primary" style={{marginLeft:"5px"}} onClick={getMyLocation}>My Location <i class="fa fa-map-marker" aria-hidden="true"></i></Button>
             
