@@ -8,32 +8,15 @@ export const autoComplete = "https://dataservice.accuweather.com/locations/v1/ci
 export const currentLocation = "https://dataservice.accuweather.com/locations/v1/cities/geoposition/search"
 
 export const getAutoComplete = async (city) => {
-        const query = `?apikey=${apiKey}&q=${city}`
-
-        const fetchAuto =  await fetch(`${autoComplete}${query}`)
-        .then((res) => res.json())
-
-        return fetchAuto;
-        
+    return await fetch(`${autoComplete}?apikey=${apiKey}&q=${city}`).then((res) => res.json())
     }
 
 export const getDaysForecast = async (locationApi) => {
-        const query = `${locationApi}?apikey=${apiKey}`
-
-        const fetchDays =  await fetch(`${fiveDaysForcast}${query}`)
-        .then((res) => res.json())
-
-        return fetchDays;
-        
+    return await fetch(`${fiveDaysForcast}${locationApi}?apikey=${apiKey}`).then((res) => res.json())    
     }
 
 export const getCurrentLocation = async (lat,lon) => {
-    const query = `?apikey=${apiKey}&q=${lat}%2C${lon}`;
-
-    const myLocation = await fetch(`${currentLocation}${query}`)
-    .then((res) => res.json())
-
-    return myLocation;
+    return await fetch(`${currentLocation}?apikey=${apiKey}&q=${lat}%2C${lon}`).then((res) => res.json())
 }
 
 export const getCurrentWeather = async (locationKey) => {

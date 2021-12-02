@@ -14,7 +14,7 @@ import CityCard from '../features/card/CityCard';
 
 
 const Weather = () => {
-    const navigate = useNavigate ();
+    const navigate = useNavigate();
     const cityParams = useParams();
     const dispatch = useDispatch();
     const getCity = useSelector((state) => state.city);
