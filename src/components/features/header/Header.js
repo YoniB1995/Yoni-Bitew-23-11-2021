@@ -27,8 +27,8 @@ const Header = ({click}) => {
    }
     return (
         <HeaderBody>
-            <HeaderLeft><img src="./images/abraLogo.jpeg" alt="Abra Company Logo" />
-            <p className="header-task">Weather Task </p> <img src="./images/rainy-1.svg" alt="Kiwi standing on oval"/>
+            <HeaderLeft><img src="https://i.pinimg.com/originals/06/c4/f7/06c4f70ec5931e2342e703e8a3f0a253.png" alt="Weather App Logo" />
+            <p className="header-task">Weather App </p> <img src="./images/rainy-1.svg" alt="Kiwi standing on oval"/>
             <p className="toggle" style={{fontSize:"1rem",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center"}}>Change Theme
                 <label class="switch" >
                     <input type="checkbox"/>
